@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
-import { soraGet } from '../api/soraApi'
+import { useEffect, useState } from "react";
+import { soraGet } from "../api/soraApi";
 
-// Home.jsx 예시
 function Home() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    // API 호출
-    soraGet().then(res => setData(res));
+    soraGet().then((res) => {
+      setData(res); // API 응답 데이터를 상태에 저장
+    }).catch(err => {
+      console.error("데이터 로드 실패:", err);
+    });
   }, []);
 
-  // 데이터가 없을 때 빈 화면을 반환하거나 로딩바를 보여주세요.
-  if (!data) return <div>로딩 중...</div>;
+  if (!data) return <div>로딩 중이거나 백엔드가 꺼져있습니다...</div>;
 
   return (
     <div>
-      {/* 데이터가 있을 때만 렌더링 */}
-      <h1>{data.message}</h1>
+      <h1>백엔드 메시지: {data.message}</h1>
     </div>
   );
 }
 
-export default Home
+export default Home;
